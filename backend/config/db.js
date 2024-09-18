@@ -4,19 +4,12 @@ const { Client } = require('pg');
 const client = new Client({
     host: 'localhost',
     port: 5432,
-    user: 'paul',
-    password: 'leahsm27',
+    user: 'postgres', // replace with your username
+    password: 'leahsm27', // replace with your password
     database: 'prestige_dental'
 });
 
-client.connect(err => {
-    if (err) {
-        console.error('Connection error', err.stack);
-    } else {
-        console.log('Connected to PostgreSQL');
-    }
-});
-// Connect to the database
+// Function to connect to the database
 const connectDB = async () => {
     try {
         await client.connect();
@@ -26,7 +19,5 @@ const connectDB = async () => {
     }
 };
 
-
 // Export the client and connectDB function
 module.exports = { client, connectDB };
-
