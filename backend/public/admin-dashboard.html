@@ -10,9 +10,9 @@
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
         <ul>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#bookings">Bookings</a></li>
-            <li><a href="#users">Users</a></li>
+            <li><a href="admin-dashboard.html">Dashboard</a></li>
+            <li><a href="admin-dashboard.html">Bookings</a></li>
+            <li><a href="admin-user.html">Users</a></li>
             <li><a href="#reports">Reports</a></li>
             <li><a href="#settings">Settings</a></li>
         </ul>
@@ -28,12 +28,18 @@
                 <label for="patient-name">Patient Name:</label>
                 <input type="text" id="patient-name" name="patient-name" required>
 
-                <label for="patient-name">Service:</label>
+                <label for="service">Service:</label>
                 <input type="text" id="service" name="service" required>
+
                 <label for="appointment-date">Appointment Date:</label>
                 <input type="date" id="appointment-date" name="appointment-date" required>
+
                 <label for="appointment-time">Appointment Time:</label>
                 <input type="time" id="appointment-time" name="appointment-time" required>
+
+                <label for="contact-number">Contact Number:</label>
+                <input type="text" id="contact-number" name="contact-number" required>
+
                 <button type="submit">Book Appointment</button>
             </form>
 
@@ -46,6 +52,7 @@
                         <th>Date</th>
                         <th>Time</th>
                         <th>Status</th>
+                        <th>Contact Number</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -68,5 +75,6 @@
         </section>
     </div>
     <script src="js/admin-script.js"></script>
+    
 </body>
 </html>

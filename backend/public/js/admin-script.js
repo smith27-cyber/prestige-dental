@@ -9,19 +9,21 @@ document.addEventListener('DOMContentLoaded', function() {
     bookingForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const patientName = document.getElementById('patient-name').value;
-        const service= document.getElementById('service').value;
+        const service = document.getElementById('service').value;
         const appointmentDate = document.getElementById('appointment-date').value;
         const appointmentTime = document.getElementById('appointment-time').value;
-console.log('Submitting apointment with:',{
-    patientName,
-    service,
-    date: appointmentDate,
-    time: appointmentTime
-}); 
-   
+        const contactNumber = document.getElementById('contact-number').value; // Added contactNumber
+
+        console.log('Submitting appointment with:', {
+            patientName,
+            service,
+            date: appointmentDate,
+            time: appointmentTime,
+            contactNumber
+        });
 
         // Basic validation
-        if (!patientName || !service || !appointmentDate || !appointmentTime){
+        if (!patientName || !service || !appointmentDate || !appointmentTime || !contactNumber) {
             alert('Please fill in all fields.');
             return;
         }
@@ -40,7 +42,8 @@ console.log('Submitting apointment with:',{
                 patientName,
                 service,
                 date: formattedDate,  // Sending date as YYYY-MM-DD
-                time: formattedTime    // Sending time directly
+                time: formattedTime,  // Sending time directly
+                contactNumber // Added contactNumber
             })
         })
         .then(response => response.json())
@@ -56,12 +59,17 @@ console.log('Submitting apointment with:',{
             alert('Error booking appointment.');
         });
     });
-    
+
     // Fetch appointments from the server
     function fetchAppointments() {
         console.log('Fetching appointments...');
         fetch('/api/appointments')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Fetched data:', data); // Log the data to see if appointments are being fetched
                 // Populate the table with appointment data
@@ -73,9 +81,10 @@ console.log('Submitting apointment with:',{
                     row.insertCell(2).textContent = new Date(appointment.date).toLocaleDateString();
                     row.insertCell(3).textContent = appointment.time;
                     row.insertCell(4).textContent = appointment.status || 'Pending';
+                    row.insertCell(5).textContent = appointment.contact_number;
 
                     // Actions cell
-                    const actionsCell = row.insertCell(5);
+                    const actionsCell = row.insertCell(6);
                     actionsCell.innerHTML = `
                         <button class="update-status-button" data-id="${appointment.id}">Update Status</button>
                         <button class="delete-button" data-id="${appointment.id}">Delete</button>
@@ -88,6 +97,7 @@ console.log('Submitting apointment with:',{
             })
             .catch(error => {
                 console.error('Error fetching appointments:', error);
+                alert('Error fetching appointments.');
             });
     }
 
