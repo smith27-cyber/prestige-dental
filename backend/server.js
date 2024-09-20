@@ -7,7 +7,7 @@ const appointmentController = require('./controllers/appointmentController'); //
 
 const basicAuth = require('express-basic-auth'); 
 const app = express();
-const port = 5000;
+const port = 3000;
 connectDB();
 
 // Middleware for logging requests
