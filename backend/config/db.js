@@ -1,23 +1,25 @@
-// config/db.js
-const { Client } = require('pg');
+const { createClient } = require('@supabase/supabase-js');
 
-const client = new Client({
-    host: 'localhost',
-    port: 5432,
-    user: 'postgres', // replace with your username
-    password: 'leahsm27', // replace with your password
-    database: 'prestige_dental'
-});
+// Environment variables for Supabase
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-// Function to connect to the database
-const connectDB = async () => {
-    try {
-        await client.connect();
-        console.log('Connected to PostgreSQL');
-    } catch (err) {
-        console.error('Connection error', err.stack);
+// Initialize Supabase client
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// You can create any functions here for interacting with Supabase
+// Example function to fetch data from the 'appointments' table
+const fetchAppointments = async () => {
+    const { data, error } = await supabase
+        .from('appointments') // Replace with your actual table name
+        .select('*');
+
+    if (error) {
+        console.error('Error fetching appointments:', error);
+        throw error; // Handle the error appropriately
     }
+    return data;
 };
 
-// Export the client and connectDB function
-module.exports = { client, connectDB };
+// Export the Supabase client and any functions
+module.exports = { supabase, fetchAppointments };
