@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment</title>
+    <link rel="stylesheet" href="css/booking.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+              <img src="images/logo.jpeg" alt="Prestige Dental Clinic">
+            </div>
+            <nav class="main-nav">
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="contact.html">Contact</a></li>
+              </ul>
+            </nav>
+          </div>
+    </header>
+
+    <main>
+        <section id="contact" class="contact">
+            <h2>Book an Appointment</h2>
+            <form id="bookingForm" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="service">Service:</label>
+                    <input type="text" id="service" name="service" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Appointment Date:</label>
+                    <input type="date" id="date" name="appointmentDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Preferred Appointment Time:</label>
+                    <input type="time" id="time" name="appointmentTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number:</label>
+                    <input type="tel" id="contactNumber" name="contactNumber" required>
+                </div>
+                <button type="submit" class="cta-button">Submit</button>
+            </form>
+
+            <!-- Confirmation Message -->
+            <p id="confirmationMessage" style="display:none; color: green;"></p>
+            <p id="errorMessage" style="display:none; color: red;"></p>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Your footer code -->
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('bookingForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Gather form data
+            const appointmentData = {
+                patientName: document.getElementById('name').value,
+                service: document.getElementById('service').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                contactNumber: document.getElementById('contactNumber').value
+            };
+
+            // Send the data to the backend via Axios
+            axios.post('http://localhost:5000/api/book', appointmentData)
+                .then(function (response) {
+                    document.getElementById('confirmationMessage').innerText = 'Appointment booked successfully!';
+                    document.getElementById('confirmationMessage').style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'none';
+
+                    // Reset form
+                    document.getElementById('bookingForm').reset();
+                })
+                .catch(function (error) {
+                    document.getElementById('errorMessage').innerText = 'Error booking appointment. Please try again.';
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('confirmationMessage').style.display = 'none';
+                });
+        });
+    </script>
+</body>
+</html>

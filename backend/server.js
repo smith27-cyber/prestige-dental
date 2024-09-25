@@ -21,6 +21,7 @@ app.use(express.json());
 
 // Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // API route for fetching all appointments
 app.get('/api/appointments', appointmentController.getAppointments);
@@ -43,7 +44,7 @@ app.get('/admin', (req, res) => {
 
 // Serve the booking HTML for the booking route
 app.get('/booking', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'booking.html'));
+    res.sendFile(path.join(__dirname, '../frontend', 'booking.html'));
 });
 
 // Serve the users HTML for the users route
@@ -53,7 +54,7 @@ app.get('/users', (req, res) => {
 
 // Catch-all route to serve index.html for any unknown routes (useful for SPA like admin dashboard)
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
 
 // Start the server
