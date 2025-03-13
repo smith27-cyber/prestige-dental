@@ -1,0 +1,136 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif; /* Modern font for better readability */
+    margin: 0;
+    padding: 0;
+    background-color: #e7f3f5; /* Light blueish background for the entire page */
+    color: #2c3e50; /* Darker shade for better contrast */
+    font-size: 18px; /* Increased base font size for better readability */
+    line-height: 1.6; /* Improved line height for readability */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex; /* Changed to flex for better alignment */
+    flex-direction: column; /* Stack items in a column */
+    gap: 20px; /* Space between sections */
+}
+
+header {
+    background-color: #ffffff; /* White for contrast */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+}
+
+.logo img {
+    max-width: 150px; /* Set a maximum width for the logo */
+    height: auto; /* Maintain the aspect ratio */
+}
+
+/* Navigation */
+.main-nav {
+    display: flex; /* Use flexbox for better alignment */
+    justify-content: center; /* Center align the navigation */
+    gap: 40px; /* Space between navigation items */
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav ul li {
+    margin: 0 15px; /* Space around each navigation item */
+}
+
+.main-nav ul li a {
+    text-decoration: none;
+    color: #333; /* Default color */
+    font-weight: bold;
+    font-size: 20px; /* Increased font size for navigation items */
+    padding: 10px 15px; /* Add padding for better clickable area */
+    border-radius: 5px; /* Rounded corners for navigation items */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition effects */
+}
+
+.main-nav ul li a:hover {
+    background-color: #007bff; /* Background color change on hover */
+    color: #ffffff; /* Change text color on hover */
+}
+
+/* Responsive navigation for smaller screens */
+@media (max-width: 768px) {
+    .main-nav {
+        flex-direction: column; /* Stack navigation items vertically on smaller screens */
+        align-items: center; /* Center align items */
+    }
+
+    .main-nav ul li {
+        margin: 10px 0; /* Space around each navigation item when stacked */
+    }
+}
+
+/* Service Section */
+.service {
+    text-align: center; /* Center align service items */
+    margin: 20px 0; /* Spacing between service items */
+}
+
+.service img {
+    max-width: 100%; /* Allow images to scale properly */
+    height: auto; /* Keep aspect ratio */
+    border-radius: 8px; /* Rounded corners for images */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-bottom: 15px; /* Spacing below images */
+    object-fit: cover; /* Cover for better image fitting */
+}
+
+/* Specific styling for images */
+img {
+    width: 100%; /* Full width for images in service sections */
+    max-width: 300px; /* Increased maximum width for images */
+    height: auto; /* Keep image proportions intact */
+    transition: transform 0.3s ease; /* Smooth transform on hover */
+}
+
+img:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+/* Heading Styles */
+h1, h2, h3, h4 {
+    margin: 0; /* Remove default margins */
+}
+
+h1 {
+    font-size: 3rem; /* Main heading size */
+    font-weight: bold; /* Bold for emphasis */
+    color: #007bff; /* Color for main headings */
+}
+
+h2 {
+    font-size: 2.5rem; /* Subheading size */
+    margin-bottom: 15px; /* Spacing below subheadings */
+    color: #333; /* Color for subheadings */
+}
+
+h3 {
+    font-size: 2rem; /* Smaller heading size */
+    margin-bottom: 10px; /* Spacing below smaller headings */
+    color: #333; /* Color for smaller headings */
+}
+
+h4 {
+    font-size: 1.5rem; /* Even smaller heading size */
+    color: #555; /* Color for smaller headings */
+}
+
+/* Paragraph Styles */
+p {
+    font-size: 1.4rem; /* Increased size for body text */
+    margin-bottom: 15px; /* Spacing below paragraphs */
+}
