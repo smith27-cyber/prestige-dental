@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/admin-styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="admin-dashboard.html">Dashboard</a></li>
+            <li><a href="admin-booking.html">Bookings</a></li>
+            <li><a href="admin-user.html">Users</a></li>
+            <li><a href="#reports">Reports</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="public-testimonial.html">Manage Testimonials</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+              
+
+        <section class="admin-testimonials">
+            <div class="container">
+                <h2>Manage Testimonials</h2>
+                <div class="testimonial-cards" id="admin-testimonial-cards">
+                    <!-- Admin testimonials will be injected here -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        async function fetchAdminTestimonials() {
+            try {
+                const response = await fetch('/api/testimonials');
+                const testimonials = await response.json();
+                const adminTestimonialCards = document.getElementById('admin-testimonial-cards');
+                adminTestimonialCards.innerHTML = ''; // Clear existing testimonials
+
+                testimonials.forEach(testimonial => {
+                    const card = document.createElement('div');
+                    card.className = 'testimonial-card';
+                    card.innerHTML = `
+                        <p>"${testimonial.testimonial}"</p>
+                        <h4>- ${testimonial.name}</h4>
+                        <button onclick="deleteTestimonial(${testimonial.id})">Delete</button>
+                    `;
+                    adminTestimonialCards.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error fetching testimonials:', error);
+            }
+        }
+
+        // Admin function to delete testimonial
+        async function deleteTestimonial(id) {
+            try {
+                const response = await fetch(`/api/testimonials/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    alert('Testimonial deleted successfully!');
+                    fetchAdminTestimonials(); // Refresh testimonials after deletion
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData.message);
+                }
+            } catch (error) {
+                console.error('Error deleting testimonial:', error);
+                alert('There was an error deleting the testimonial.');
+            }
+        }
+
+        // Fetch admin testimonials on page load
+        window.onload = fetchAdminTestimonials;
+    </script>
+
+   
+</body>
+</html>

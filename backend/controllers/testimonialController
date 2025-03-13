@@ -1,0 +1,49 @@
+const { client } = require('../config/db');
+// Get all testimonials
+exports.getTestimonials = async (req, res) => {
+    try {
+        const result = await client.query('SELECT * FROM testimonials ORDER BY id DESC');
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching testimonials:', error);
+        res.status(500).json({ message: 'Error fetching testimonials' });
+    }
+};
+
+// Add a testimonial
+exports.addTestimonial = async (req, res) => {
+    const { name, testimonial } = req.body;
+
+    if (!name || !testimonial) {
+        return res.status(400).json({ message: 'Name and testimonial are required' });
+    }
+
+    try {
+        const query = 'INSERT INTO testimonials (name, testimonial) VALUES ($1, $2) RETURNING *';
+        const values = [name, testimonial];
+
+        const result = await client.query(query, values);
+        res.status(201).json({ message: 'Testimonial added successfully', testimonial: result.rows[0] });
+    } catch (error) {
+        console.error('Error adding testimonial:', error);
+        res.status(500).json({ message: 'Error adding testimonial' });
+    }
+};
+
+// Delete a testimonial by ID
+exports.deleteTestimonial = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await client.query('DELETE FROM testimonials WHERE id = $1 RETURNING *', [id]);
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ message: 'Testimonial not found' });
+        }
+
+        res.json({ message: 'Testimonial deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting testimonial:', error);
+        res.status(500).json({ message: 'Error deleting testimonial' });
+    }
+};
