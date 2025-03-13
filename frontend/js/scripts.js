@@ -7,7 +7,8 @@ document.getElementById('bookingForm').addEventListener('submit', function(event
         service: document.getElementById('service').value,
         date: document.getElementById('date').value,
         time: document.getElementById('time').value,
-        contactNumber: document.getElementById('contactNumber').value
+        contactNumber: document.getElementById('contactNumber').value,
+        email: document.getElementById('email').value
     };
 
     // Send the data to the backend via Axios

@@ -1,14 +1,14 @@
 const { client } = require('../config/db'); // PostgreSQL connection
 const sendWhatsAppNotification = require('../utils/sendNotification');
-
+const sendEmailNotification = require('../utils/sendEmail');
 
 // Book a new appointment
 exports.bookAppointment = async (req, res) => {
-    const { patientName, service, date, time, contactNumber } = req.body;
+    const { patientName, service, date, time, contactNumber, email } = req.body;
 
     try {
         // Validate input
-        if (!patientName || !service || !date || !time || !contactNumber) {
+        if (!patientName || !service || !date || !time || !contactNumber || !email) {
             return res.status(400).json({
                 error: 'All fields are required'
             });
@@ -16,14 +16,25 @@ exports.bookAppointment = async (req, res) => {
 
         // Insert the new appointment into the database
         const result = await client.query(
-            'INSERT INTO appointments (patient_name, service, date, time, contact_number) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [patientName, service, date, time, contactNumber]
+            'INSERT INTO appointments (patient_name, service, date, time, contact_number, email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [patientName, service, date, time, contactNumber, email]
         );
 
         const newAppointment = result.rows[0];
 
-        // Optionally send a WhatsApp notification
+        // Send WhatsApp notification to the patient
         sendWhatsAppNotification(contactNumber, `Your appointment for ${service} on ${date} at ${time} is confirmed!`);
+
+        // Send email notification to the patient
+        const emailSubject = 'Appointment Confirmation';
+        const emailText = `Dear ${patientName},\n\nYour appointment for ${service} on ${date} at ${time} has been confirmed.\n\nThank you!`;
+        sendEmailNotification(email, emailSubject, emailText);
+
+        // Optionally, send an email notification to the admin (if required)
+        const adminEmail = 'paulsmle27@gmail.com';  // Set this to your admin email
+        const adminSubject = 'New Appointment Booking';
+        const adminText = `New appointment booked:\n\nPatient Name: ${patientName}\nService: ${service}\nDate: ${date}\nTime: ${time}\nContact Number: ${contactNumber}`;
+        sendEmailNotification(adminEmail, adminSubject, adminText);
 
         // Respond with the newly created appointment
         res.status(201).json({
@@ -37,7 +48,7 @@ exports.bookAppointment = async (req, res) => {
             error: 'Error booking appointment',
             details: error.message
         });
-    }
+    }console.log(req.body);
 };
 
 // Get all appointments (for admin dashboard)
